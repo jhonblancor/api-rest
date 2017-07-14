@@ -2,40 +2,37 @@
 'use strict'
 
 const express = require('express');
-const bodyParse = require('body-parser');
-
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 //declaramos variable app de tipo express
 const app = express();
 const port = process.env.PORT || 3000;
 
-app.use(bodyParse.urlencoded({extend: false}));
-app.use(bodyParse.json());
+app.use(bodyParser.urlencoded({extend: false}));
+app.use(bodyParser.json());
 
-
-//creamos nuestras rutas
-app.get('/api/product',(req, res)=>{
-res.send(200,{priducts:[]});
+app.get('/api/product', (req, res) =>{
+	res.status(200).send({product:[]})
 });
 
-app.get('/api/product/:productId',(req,res)=>{
-
-});
-
-app.post('/api/product',(req,res)=>{
-console.log(req.body);
-res.status(200).send(200,{message:'el producto se ha recibido'})
-});
-
-app.put('api/product/:productId',(req,res)=>{
+app.get('/api/product/:productId', (req, res) =>{
 
 });
 
-app.delete('/api/product/:productId',(req,res)=>{
-
+app.post('/api/product', (req, res) =>{
+	console.log(req.body)
+	res.status(200).send({message: 'El producto ha sido creado'})
 });
 
+mongoose.connect('mongodb://localhost:27017/shop',(err, res)=>{
+	if(err) {
+		console.log('error al intentar conectar a base de datos!');
+	}
+		console.log('Conexion a la base datos exitosa...');
+
+		app.listen(port, ()=>{
+		console.log('API REST corriendo')
+	})
+})
 //le decimnos que escuche por el puerto 3000 y con la nueva
 //arrofunctio de ecmascript 6 que imprima Api rest
-app.listen(port, ()=>{
-	console.log('API REST corriendo')
-});
